@@ -76,7 +76,9 @@ How do?
 2. Prover says, "C"
 3. Verifer randomly selects r, calculates a vector: $x=(r,r^2..,r^n)$
 Checks that:
+
 $$Cx== (AB)x$$ 
+
 If Prover computed C correctly, 
 Noting that the product of the vector and a matrix is an `O(n^2)` operation.
 
@@ -92,7 +94,9 @@ The Verifier runs two `O(n^2)` checks, which is a plausible improvement over one
 
 **Soundness** 
 What's the probability that a cheating prover gets lucky? Eg, suppose some row, $i$ of $C'\ne C$, but the rest is identical. Express this row $c'_i, c_i$. We want to find the probability:
+
 $$Pr(c'_i*x = c_i *x)$$
+
 Optimistically, this probability is $1/p$.
 Pessimistically, this could be as great as $n/p$, where recall that n is the length of the vector, which can be shown by applying Fact 2.1. $c_i*x=c'_i*x$ will hold for n 
 choices of $r$, therefore there will be at most $n$ collisions; therefore the probability is at most $n/p$.

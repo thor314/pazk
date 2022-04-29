@@ -1,5 +1,5 @@
 # What is this?
-This is where I'll be collecting resources related to the Study Group on Justin Thaler's [Proofs
+This is where I'll be collecting resources related to the Study Group on Dr. Justin Thaler's [Proofs
 Arguments And Zero Knowledge
 Book](https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.pdf).
 
