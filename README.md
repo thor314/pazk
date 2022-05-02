@@ -8,4 +8,5 @@ server](https://www.zkhack.dev/) by myself and the nice folks at the Zero Knowle
 Podcast.
 
 Have a nice repo of your own? I'd love to link to it!
-Questions about this resource? DM me on Twitter, @cryptograthor.
+Questions about this resource? DM me on
+[Twitter](twitter.com/cryptograthor).
