@@ -1,0 +1,14 @@
+/home/thor/pazk/2-freivalds/target/debug/deps/bytemuck-b87d179f64fcfc43.rmeta: /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/lib.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/anybitpattern.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/checked.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/internal.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/zeroable.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/pod.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/no_uninit.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/contiguous.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/offset_of.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/transparent.rs
+
+/home/thor/pazk/2-freivalds/target/debug/deps/bytemuck-b87d179f64fcfc43.d: /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/lib.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/anybitpattern.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/checked.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/internal.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/zeroable.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/pod.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/no_uninit.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/contiguous.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/offset_of.rs /home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/transparent.rs
+
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/lib.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/anybitpattern.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/checked.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/internal.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/zeroable.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/pod.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/no_uninit.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/contiguous.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/offset_of.rs:
+/home/thor/.cargo/registry/src/github.com-1ecc6299db9ec823/bytemuck-1.9.1/src/transparent.rs:
