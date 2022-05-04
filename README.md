@@ -14,3 +14,8 @@ Podcast.
 Have a nice repo of your own? I'd love to link to it!
 Questions about this resource? DM me on
 [Twitter](https://twitter.com/cryptograthor).
+
+## Links
+- Bryan's explainer on [multilinear Lagrange interpolation](https://gist.github.com/bgillesp/4d020dde5bc04995ce21c5d5af3b55f3)
+- A [Zoo](https://complexityzoo.net/Complexity_Zoo) to visit weird and wonderful Complexity classes (note that complexity theory is not required or even core knowledge for this book, but exists as one of many rabbit holes to dive into)
+

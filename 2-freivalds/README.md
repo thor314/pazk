@@ -2,7 +2,10 @@
 Implementation of [Freivalds' Algorithm](https://en.wikipedia.org/wiki/Freivalds%27_algorithm), in Python and Rust. 
 
 ## others' repos:
-- [0xSage](https://github.com/0xSage/Freivald-Scaffold)
+- [0xSage](https://github.com/0xSage/freivald)
+- [mmagician](https://github.com/mmagician/freivalds)
+- [maxgillet](https://github.com/maxgillett/thaler_reading_group/tree/master/week1-frievalds)
+ 
 ## Notes
 I've made at least one significant simplification in this implementation. Audit the code to see if you can identify it before scrolling down.
 
