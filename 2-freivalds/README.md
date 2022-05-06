@@ -7,6 +7,7 @@ Implementation of [Freivalds' Algorithm](https://en.wikipedia.org/wiki/Freivalds
 - [maxgillet](https://github.com/maxgillett/thaler_reading_group/tree/master/week1-frievalds)
 - [pg
   haskell](https://github.com/pgwadapool/Learning_Haskell/tree/main/zkp/freivald)
+- [bufferhe4d python](https://github.com/bufferhe4d/pazk-study)
  
 ## Notes
 I've made at least one significant simplification in this implementation. Audit the code to see if you can identify it before scrolling down.

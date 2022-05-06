@@ -61,3 +61,13 @@ Fact 3.5 is reasonably intuitive, that there should only be a single multilinear
 Lemma 3.6 gives the defn for **Lagrange**. 
 
 Lemmas 3.7 and 3.8 give methods for computing the Lagrange efficiently. 3.8 gives an $O(n)$ time and space algorithm, with dynamic programming and memoization.
+
+## Notes from group 2022-05-06:
+-  Reed solomon coding - traditionally used for Error correcting codes, but the RS code is only being used for distance amplification, in that they amplify errors, book has been updated for clarity around the term Error correcting code. The defn of Reed solomon codes has also been minorly updated in the book. 
+- Public coin protocols - wlog, any private coin protocol can be turned into a public coin protocol while roughly preserving the efficiency of the verifier (at slight cost to the verifier, with possibly significant blow up in the prover) 
+-> Q: where is this transformation discussed? I don't have a model of these blow-ups. 
+- Private -> Public coin, what causes the blowup? Goldwasser et al discuss this in the model of "what fraction of possible public coins would cause a verifier to incorrectly accept"? So, analyzing a weakening of soundness, that could be re-strengthened by increasing the entropy in public coins, see https://www.cs.cornell.edu/~rafael/papers/bbZK.pdf for a zk context discussion, https://pages.cs.wisc.edu/~jyc/710/Goldwasser-Sipser.pdf is the original paper; there's some discussion about the verifier finding the pre-image of a hash function that I didn't quite get.
+- polynomial blowup: means that if the original verifier was O(N), the transformed protocol might run in time O(f(N)), where f is some polynomial, this is generally pretty bad, we prefer linear or quasilinear blowup, which would require f to be some constant function or some logarithmic function respectively. 
+- How do we adjust protocols for blowup in soundness error, eg for private->public coin or fiat shamir transformations? In an interactive proof, proofs are ephemeral--in any one interaction run, the verifier will only query the prover at 1 point (see sumcheck). To adjust for blowup in soundness error, can adjust Field size, or just to repeat the protocol
+- Schwartz Zippel Lemma - Any two polynomials can only agree at a very small fraction of points, really just an expansion of the FT of Algebra to multiple variables
+
