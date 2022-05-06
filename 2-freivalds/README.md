@@ -8,6 +8,8 @@ Implementation of [Freivalds' Algorithm](https://en.wikipedia.org/wiki/Freivalds
 - [pg
   haskell](https://github.com/pgwadapool/Learning_Haskell/tree/main/zkp/freivald)
 - [bufferhe4d python](https://github.com/bufferhe4d/pazk-study)
+- [jasonmorton](https://github.com/jasonmorton/freivald)
+- [jason backend](https://github.com/jasonmorton/freivald-backend/)
  
 ## Notes
 I've made at least one significant simplification in this implementation. Audit the code to see if you can identify it before scrolling down.
