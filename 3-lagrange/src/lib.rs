@@ -1,5 +1,5 @@
 // placeholder type aliases
-type Bit= u8;
+type Bit= usize;
 type Bitvec = Vec<Bit>;
 type Field = usize;
 type Rvec = Vec<usize>;
@@ -11,8 +11,10 @@ where
     todo!();
 }
 
-fn lagrange(w: Bitvec, r: Rvec){
-    todo!();
+fn lagrange(w: &Bitvec, r: &Rvec) -> Field {
+    assert!(w.len() == r.len());
+    let mut output = 1;
+    r.iter().enumerate().map(|(i,x_i)| x_i*w[i] + (1-x_i)*(1-w[i])).product()
 }
 
 
