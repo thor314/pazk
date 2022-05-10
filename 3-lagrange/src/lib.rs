@@ -1,12 +1,13 @@
 // placeholder type aliases
-type Bit= usize;
+use typenum::bit::B1;
+type Bit= B1;
 type Bitvec = Vec<Bit>;
-type Field = usize;
-type Rvec = Vec<usize>;
+type Field = B1;
+type Rvec = Vec<B1>;
 
 fn compute_ml_ext<F>(v: Bitvec) -> F
 where
-    F: Fn(Bitvec) -> usize,
+    F: Fn(Bitvec) -> B1,
 {
     todo!();
 }
