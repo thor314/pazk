@@ -62,12 +62,34 @@ Lemma 3.6 gives the defn for **Lagrange**.
 
 Lemmas 3.7 and 3.8 give methods for computing the Lagrange efficiently. 3.8 gives an $O(n)$ time and space algorithm, with dynamic programming and memoization.
 
-## Notes from group 2022-05-06:
--  Reed solomon coding - traditionally used for Error correcting codes, but the RS code is only being used for distance amplification, in that they amplify errors, book has been updated for clarity around the term Error correcting code. The defn of Reed solomon codes has also been minorly updated in the book. 
-- Public coin protocols - wlog, any private coin protocol can be turned into a public coin protocol while roughly preserving the efficiency of the verifier (at slight cost to the verifier, with possibly significant blow up in the prover) 
--> Q: where is this transformation discussed? I don't have a model of these blow-ups. 
-- Private -> Public coin, what causes the blowup? Goldwasser et al discuss this in the model of "what fraction of possible public coins would cause a verifier to incorrectly accept"? So, analyzing a weakening of soundness, that could be re-strengthened by increasing the entropy in public coins, see https://www.cs.cornell.edu/~rafael/papers/bbZK.pdf for a zk context discussion, https://pages.cs.wisc.edu/~jyc/710/Goldwasser-Sipser.pdf is the original paper; there's some discussion about the verifier finding the pre-image of a hash function that I didn't quite get.
-- polynomial blowup: means that if the original verifier was O(N), the transformed protocol might run in time O(f(N)), where f is some polynomial, this is generally pretty bad, we prefer linear or quasilinear blowup, which would require f to be some constant function or some logarithmic function respectively. 
-- How do we adjust protocols for blowup in soundness error, eg for private->public coin or fiat shamir transformations? In an interactive proof, proofs are ephemeral--in any one interaction run, the verifier will only query the prover at 1 point (see sumcheck). To adjust for blowup in soundness error, can adjust Field size, or just to repeat the protocol
-- Schwartz Zippel Lemma - Any two polynomials can only agree at a very small fraction of points, really just an expansion of the FT of Algebra to multiple variables
+# Exercises
+## 3.1 Relating fact 2.1 to Schwartz Zippel
+We want to apply our new knowledge of SZ to Freivalds' Algorithm. Specifically, we want to replace $x=(r,...,r^n)$ with $x=(x_1,...,x_n)$ random elements from $\mathbb F$  and show correctness and soundness:
+- Correctness: follows naturally
+- Soundness: Suppose $C' \ne (AB)$ . We want to find probability: $\Pr[C'x==ABx]$. 
 
+Let $g: \mathbb F^{n\times n} \rightarrow \mathbb F^n$; $g(M)=Mx-ABx$. We're interested in the roots of $g$.
+Since $x_i$ are chosen uniformly at random from $\mathbb F$ (it would not advantage the verifier to seek out non-random values), the size of our set $S\subseteq \mathbb F^n$ is simply $S=\mathbb F^n$. Therefore, $Pr[C'x=ABx] \le d/|S|= 1/|\mathbb F^n|$
+
+Suppose that $C'$ disagrees with $AB$ at only one row. We may restrict $|S|$ to $\mathbb F$, to obtain $Pr[C'x=ABx] \le 1/\mathbb F$ .
+
+## 3.2 File comparisons, with another application of SZ
+Alice and Bob construct (massive) degree-n Lagrange polynomial over their n-bit file. They choose $\vec r$ at random, and compare outputs. 
+
+- Soundness: Compute $Pr[p_a(\vec r)=p_b(\vec r)]$, if the polynomials differ.
+Let $g: \mathbb F^n\rightarrow \mathbb F$, $g(\vec x)=p_a(\vec x)-p_b(\vec x)$. Then $\Pr[p_a(\vec r)=p_b(\vec r)] \le d/|S| = 1/|\mathbb F|$
+
+Therefore to obtain at least soundness probability $1/n$, choose $|\mathbb F| \ge n$.
+
+- The communication cost of the protocol: 
+Alice sends Bob: $r$, an n-bit vector (yikes). Bob returns 1 field element.
+Thus, $O(n+\log|\mathbb F|)$ bits.
+
+## 3.3 
+Let $a=(a',..,a_n) \in \mathbb F^n$, same for b. 
+- (a) Alice can compute $p_a(r) = \sum^n_i a_ir^{i-1}$ in n field multiplications, ie. $O(n^2)$ (by naive multiplication).
+- (b) by an application of Lagrange interpolation, there exists a unique degree $n-1$ polynomial interpolating points $((1,a_1)...(n,a_n))$. Fact 2.1 can be exploited to demonstrate that the existance of any other polynomial, $q'$ would require $q-q'$ to vanish at all points 1..n, but not any other points, which is a (hand-wavey) contradiction.
+- (c) repeat of problem 3.2
+- (d) repeat of problem 3.2
+
+## 3.4  skipped, tedious. Implement it instead.
