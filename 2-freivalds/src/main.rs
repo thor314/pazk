@@ -1,5 +1,5 @@
 #![allow(non_snake_case)]
-//! An implementation of Freivalds algorithm over a Prime Field, using Arkworks' Prime Library.
+//! An implementation of Freivalds algorithm over a Prime Field, using Arkworks and nalgebra.
 // Choose an arbitrary field for our driver:
 use ark_bls12_381::Fr;
 use ark_ff::PrimeField;
@@ -13,11 +13,13 @@ fn main() {
     let A = random_matrix::<Fr, ThreadRng>(&mut rng, n);
     let B = random_matrix::<Fr, ThreadRng>(&mut rng, n);
 
-    println!("V: hey prover, multiply {:?} and {:?}", A, B);
+    // println!("V: hey prover, multiply {:?} and {:?}", A, B);
+
     // swap these lines to change the honesty of the prover
     // let C = honest_mat_mul(&A, &B);
     let C = dishonest_mat_mul(&A,&B);
-    println!("P: claim AB={:?}", C);
+
+    // println!("P: claim AB={:?}", C);
 
     println!("V: Verifying ABx = Cx");
 
@@ -25,7 +27,6 @@ fn main() {
     println!("output: {:?}", b_output);
 }
 
-//
 fn random_matrix<F: PrimeField, R: RngCore>(rng: &mut R, n: usize) -> DMatrix<F> {
     DMatrix::from_fn(n, n, |_, _| F::rand(rng))
 }
