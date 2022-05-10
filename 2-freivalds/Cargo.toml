@@ -7,5 +7,8 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8.5"
-nalgebra = "0.31.0"
+nalgebra = "0.30.0"
+ark-ff = "0.3.0"
+ark-std = "0.3.0"
+ark-bls12-381 = "0.3.0"
 
