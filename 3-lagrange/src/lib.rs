@@ -1,6 +1,7 @@
 // placeholder type aliases
+use std::ops::Mul;
 use typenum::bit::B1;
-type Bit= B1;
+type Bit = B1;
 type Bitvec = Vec<Bit>;
 type Field = B1;
 type Rvec = Vec<B1>;
@@ -15,19 +16,20 @@ where
 fn lagrange(w: &Bitvec, r: &Rvec) -> Field {
     assert!(w.len() == r.len());
     let mut output = 1;
-    r.iter().enumerate().map(|(i,x_i)| x_i*w[i] + (1-x_i)*(1-w[i])).product()
+    r.iter()
+        .enumerate()
+        .map(|(i, &x_i)| x_i & w[i] | (!x_i) & (!w[i]))
+        .fold(B1, |acc, a| acc & a)
 }
-
 
 /// Compute f^~(r) in O(n log n) time and O(log n) space with a streaming pass
 fn lemma_37<F>(f: F, r: Rvec)
 where
     F: Fn(Bitvec) -> Bit,
 {
-    let mut f_out = |x:Bitvec| 0;
-    for bit in r{
-        f_out = f_out(r)+ f(bit)*lagrange(w,r)
-
+    let mut f_out = |x: Bitvec| 0;
+    for bit in r {
+        f_out = f_out(r) + f(bit) * lagrange(w, r)
     }
     todo!();
 }
@@ -50,7 +52,7 @@ mod test {
         todo!()
     }
 
-    fn test_exercise_34(){
+    fn test_exercise_34() {
         todo!()
     }
 }
