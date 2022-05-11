@@ -6,10 +6,7 @@ type Bv = Vec<Bit>;
 
 /// convert n to an unpadded vector of bits
 fn to_bits(n: usize, pad_to_len: usize) -> Bv {
-    let mut v: Bv = format!("{:b}", n)
-        .chars()
-        .map(|c| c == '1')
-        .collect();
+    let mut v: Bv = format!("{:b}", n).chars().map(|c| c == '1').collect();
     let diff = pad_to_len - v.len();
     let mut vo = vec![false; diff];
     vo.append(&mut v);
@@ -24,7 +21,7 @@ where
     let xlen = x.len();
     (0..(2usize.pow(x.len() as u32)))
         .map(|w_i| to_bits(w_i, xlen))
-        // a  cop-out: don't return a function, but its evaluation, see above
+        // a  cop-out: don't return a function, but its evaluation, see bottom
         .map(|w_i| if X_w(&w_i, x) { f(&w_i) } else { Fr::zero() })
         .sum()
 }
@@ -38,6 +35,13 @@ where
         .enumerate()
         .map(|(i, x_i)| *x_i && w[i] || (!x_i) && (!w[i]))
         .fold(true, |acc, a| acc && a)
+}
+
+fn lemma_37() {
+    todo!()
+}
+fn lemma_38() {
+    todo!()
 }
 
 #[cfg(test)]
@@ -66,7 +70,7 @@ mod test {
         let bv = 2usize;
         assert_eq!(to_bits(bv, 2), [true, false]);
         let bv = 2usize;
-        assert_eq!(to_bits(bv, 3), [false,true, false]);
+        assert_eq!(to_bits(bv, 3), [false, true, false]);
         let bv = 7;
         assert_eq!(to_bits(bv, 3), [true, true, true]);
     }
