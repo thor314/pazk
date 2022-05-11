@@ -1,25 +1,27 @@
-// placeholder type aliases
-use std::ops::Mul;
-use typenum::bit::B1;
-type Bit = B1;
-type Bitvec = Vec<Bit>;
-type Field = B1;
-type Rvec = Vec<B1>;
+use ark_ff::PrimeField;
+type Fr = u8;
+// bit field
+type B = u8;
 
-fn compute_ml_ext<F>(v: Bitvec) -> F
+/// compute f^~(x), see eqn 3.1
+fn lemma_36<F>(f: F, x: &[B]) -> Fr
 where
-    F: Fn(Bitvec) -> B1,
+    F: Fn(Vec<B>) -> Fr,
 {
-    todo!();
+    // todo: how to generate w, all bitvectors of arbitrary length
+    let w: Vec<Vec<B>> = vec![vec![]];
+    w.into_iter().map(|w_i| f(w_i.clone()) * X_w(&w_i, x)).sum()
 }
 
-fn lagrange(w: &Bitvec, r: &Rvec) -> Field {
-    assert!(w.len() == r.len());
-    let mut output = 1;
-    r.iter()
+// see eqn 3.2, w'th Lagrange basis
+fn X_w(w: &[B], x: &[B]) -> Fr {
+    assert!(w.len() == x.len());
+    let fr = x
+        .iter()
         .enumerate()
-        .map(|(i, &x_i)| x_i & w[i] | (!x_i) & (!w[i]))
-        .fold(B1, |acc, a| acc & a)
+        .map(|(i, &x_i)| x_i * w[i] + (1 - x_i) * (1 - w[i]))
+        .fold(1, |acc, a| acc * a);
+    Fr::from(fr)
 }
 
 /// Compute f^~(r) in O(n log n) time and O(log n) space with a streaming pass
@@ -34,21 +36,20 @@ where
     todo!();
 }
 
-fn lemma_38<F>(f: F, r: Bitvec)
-where
-    F: Fn(Bitvec) -> Bit,
-{
-    todo!();
-}
-
-fn main() {}
+// fn lemma_38<F>(f: F, r: Bitvec)
+// where
+//     F: Fn(Bitvec) -> Bit,
+// {
+//     todo!();
+// }
 
 #[cfg(test)]
 mod test {
     use super::*;
 
     #[test]
-    fn test_compute_ml_ext() {
+    fn t_lemma36() {
+        // let out = lemma_36(f), x)
         todo!()
     }
 
