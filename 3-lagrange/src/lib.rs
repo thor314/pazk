@@ -1,59 +1,92 @@
+#![allow(non_snake_case)]
+#![allow(dead_code)]
 use ark_ff::PrimeField;
-type Fr = u8;
-// bit field
-type B = u8;
+type Bit = bool;
+type Bv = Vec<Bit>;
 
-/// compute f^~(x), see eqn 3.1
-fn lemma_36<F>(f: F, x: &[B]) -> Fr
+/// convert n to an unpadded vector of bits
+fn to_bits(n: usize, pad_to_len: usize) -> Bv {
+    let mut v: Bv = format!("{:b}", n)
+        .chars()
+        .map(|c| c == '1')
+        .collect();
+    let diff = pad_to_len - v.len();
+    let mut vo = vec![false; diff];
+    vo.append(&mut v);
+    vo
+}
+
+fn lemma_36<F, Fr: PrimeField>(f: F, x: &Bv) -> Fr
 where
-    F: Fn(Vec<B>) -> Fr,
+    F: Fn(&Bv) -> Fr,
 {
-    // todo: how to generate w, all bitvectors of arbitrary length
-    let w: Vec<Vec<B>> = vec![vec![]];
-    w.into_iter().map(|w_i| f(w_i.clone()) * X_w(&w_i, x)).sum()
+    // generate all bitvectors of length equal to the input x
+    let xlen = x.len();
+    (0..(2usize.pow(x.len() as u32)))
+        .map(|w_i| to_bits(w_i, xlen))
+        // a  cop-out: don't return a function, but its evaluation, see above
+        .map(|w_i| if X_w(&w_i, x) { f(&w_i) } else { Fr::zero() })
+        .sum()
 }
 
 // see eqn 3.2, w'th Lagrange basis
-fn X_w(w: &[B], x: &[B]) -> Fr {
-    assert!(w.len() == x.len());
-    let fr = x
-        .iter()
-        .enumerate()
-        .map(|(i, &x_i)| x_i * w[i] + (1 - x_i) * (1 - w[i]))
-        .fold(1, |acc, a| acc * a);
-    Fr::from(fr)
-}
-
-/// Compute f^~(r) in O(n log n) time and O(log n) space with a streaming pass
-fn lemma_37<F>(f: F, r: Rvec)
+fn X_w(w: &Bv, x: &Bv) -> Bit
 where
-    F: Fn(Bitvec) -> Bit,
 {
-    let mut f_out = |x: Bitvec| 0;
-    for bit in r {
-        f_out = f_out(r) + f(bit) * lagrange(w, r)
-    }
-    todo!();
+    assert!(w.len() == x.len());
+    x.iter()
+        .enumerate()
+        .map(|(i, x_i)| *x_i && w[i] || (!x_i) && (!w[i]))
+        .fold(true, |acc, a| acc && a)
 }
-
-// fn lemma_38<F>(f: F, r: Bitvec)
-// where
-//     F: Fn(Bitvec) -> Bit,
-// {
-//     todo!();
-// }
 
 #[cfg(test)]
 mod test {
     use super::*;
+    // use ark_bls12_381::Fr;
+    // or make your own field
+    use ark_ff::{fields::Fp64, MontBackend, MontConfig, MontFp, One};
+
+    #[derive(MontConfig)]
+    #[modulus = "17"]
+    #[generator = "3"]
+    pub struct FqConfig;
+    pub type Fq = Fp64<MontBackend<FqConfig, 1>>;
 
     #[test]
     fn t_lemma36() {
-        // let out = lemma_36(f), x)
-        todo!()
+        let f = |bv: &Bv| Fq::from(bv[2]);
+        let x = to_bits(7, 3);
+        let out = lemma_36(f, &x);
+        assert_eq!(out, Fq::one());
     }
 
-    fn test_exercise_34() {
-        todo!()
+    #[test]
+    fn test_to_bits() {
+        let bv = 2usize;
+        assert_eq!(to_bits(bv, 2), [true, false]);
+        let bv = 2usize;
+        assert_eq!(to_bits(bv, 3), [false,true, false]);
+        let bv = 7;
+        assert_eq!(to_bits(bv, 3), [true, true, true]);
     }
 }
+
+// compute f^~(x), see eqn 3.1
+// fn lemma_36<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
+// where
+//     F: Fn(Vec<&Bv>) -> Fr,
+//     G: Fn(Vec<&Fr>) -> Fr,
+// {
+//     // generate all bitvectors of length equal to the input x
+//     let w: Vec<Bv> = (1..=(2usize.pow(x.len() as u32)))
+//         .map(|w_i|
+//             Bv::from(w_i.view_bits::<Lsb0>())
+//         )
+//         .collect();
+//     // the following fails: closures have distinct types, so cannot match generic parameter G
+//     // my type theory isn't good enough for this API
+//     // let g: G = |fr_v: Vec<&Fr>| -> Fr {
+//     //     w.into_iter().map(|w_i| fr_v(w_i)*X_w(&w_i,x))
+//     // };
+// }

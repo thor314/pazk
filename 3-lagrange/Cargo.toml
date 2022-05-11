@@ -6,4 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ark-ff = "0.3.0"
+ark-bls12-381 = "0.3.0"
+ark-ff = { git = "https://github.com/arkworks-rs/algebra"  }
+bitvec = "1.0.0"
