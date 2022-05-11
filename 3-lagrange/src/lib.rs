@@ -77,20 +77,18 @@ mod test {
 }
 
 // compute f^~(x), see eqn 3.1
-// fn lemma_36<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
+// fn lemma_36_wrong<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
 // where
 //     F: Fn(Vec<&Bv>) -> Fr,
 //     G: Fn(Vec<&Fr>) -> Fr,
 // {
-//     // generate all bitvectors of length equal to the input x
-//     let w: Vec<Bv> = (1..=(2usize.pow(x.len() as u32)))
-//         .map(|w_i|
-//             Bv::from(w_i.view_bits::<Lsb0>())
-//         )
-//         .collect();
+//     let xlen = x.len();
+//     let w: Vec<Bv> = (0..(2usize.pow(x.len() as u32)))
+//         .map(|w_i| to_bits(w_i, xlen)).collect();
+//     // a  cop-out: don't return a function, but its evaluation, see bottom
 //     // the following fails: closures have distinct types, so cannot match generic parameter G
 //     // my type theory isn't good enough for this API
-//     // let g: G = |fr_v: Vec<&Fr>| -> Fr {
-//     //     w.into_iter().map(|w_i| fr_v(w_i)*X_w(&w_i,x))
-//     // };
+//     let g: G = |fr_v: Vec<&Fr>| -> Fr {
+//         w.into_iter().map(|w_i| fr_v(w_i)*X_w(&w_i,x))
+//     };
 // }
