@@ -22,11 +22,11 @@ Questions about this resource? DM me on
 ## Protocols to be implemented in the PAZK study group
 A list of protocols to be implemented in Rust and Python by me over the course of the Thaler Study club, run out of the ZK hack discord server, published at github.com/thor314/pazk, in the (approximate) period April 2022-December 2022. The list is subject to change.
 
-- Freivalds Algorithm 
+- Freivalds Algorithm
 - Multilinear Lagrange Interpolation
 - Sumcheck
 - GKR
-- Fiat Shamir transfsormation outline
+- Fiat Shamir transformation outline
 - R1CS Front end over GKR
 - A Succinct Circuit Satisfiability Interactive Proof
 - Several Implementations of Polynomial Commitment schemes over:
@@ -45,12 +45,11 @@ A list of protocols to be implemented in Rust and Python by me over the course o
 - Sigma protocols, including Pedersen commitments
 - Fiat Shamir applied to the above sigma protocols
 - a Zero knowledge circuit via masking polynomials
-- several Polynomial commmitments from hardness of discrete log
+- several Polynomial commitments from hardness of discrete log
 - a naive bulletproof implementation
-- KZG univariate polynomial commitments from pairings and a trusted setup, and extensions to multilineear polynomails
-- The transparant Dory scheme
+- KZG univariate polynomial commitments from pairings and a trusted setup, and extensions to multilinear polynomials
+- The transparent Dory scheme
 - Hydrax
 - GGPR13
 - Groth16
 - Plonk, and modifications
-
