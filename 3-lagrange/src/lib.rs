@@ -13,11 +13,11 @@ fn to_bits(n: usize, pad_to_len: usize) -> Bv {
     vo
 }
 
-fn lemma_36<F, Fr: PrimeField>(f: F, x: &Bv) -> Fr
+/// Functional equivalent to how the book presents Lemma 3.7 (imperatively)
+fn lemma_37<F, Fr: PrimeField>(f: F, x: &Bv) -> Fr
 where
     F: Fn(&Bv) -> Fr,
 {
-    // generate all bitvectors of length equal to the input x
     let xlen = x.len();
     (0..(2usize.pow(x.len() as u32)))
         .map(|w_i| to_bits(w_i, xlen))
@@ -37,12 +37,7 @@ where
         .fold(true, |acc, a| acc && a)
 }
 
-fn lemma_37() {
-    todo!()
-}
-fn lemma_38() {
-    todo!()
-}
+// lemma 3.8 elided. 
 
 #[cfg(test)]
 mod test {
@@ -58,10 +53,10 @@ mod test {
     pub type Fq = Fp64<MontBackend<FqConfig, 1>>;
 
     #[test]
-    fn t_lemma36() {
+    fn t_lemma37() {
         let f = |bv: &Bv| Fq::from(bv[2]);
         let x = to_bits(7, 3);
-        let out = lemma_36(f, &x);
+        let out = lemma_37(f, &x);
         assert_eq!(out, Fq::one());
     }
 
@@ -77,7 +72,7 @@ mod test {
 }
 
 // compute f^~(x), see eqn 3.1
-// fn lemma_36_wrong<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
+// fn lemma_37_wrong<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
 // where
 //     F: Fn(Vec<&Bv>) -> Fr,
 //     G: Fn(Vec<&Fr>) -> Fr,
