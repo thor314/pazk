@@ -20,7 +20,7 @@ where
 {
     let xlen = x.len();
     (0..(2usize.pow(x.len() as u32)))
-        .map(|w_i| to_bits(w_i, xlen))
+        .map(|i| to_bits(i, xlen))
         // a  cop-out: don't return a function, but its evaluation, see bottom
         .map(|w_i| if X_w(&w_i, x) { f(&w_i) } else { Fr::zero() })
         .sum()
@@ -33,18 +33,18 @@ where
     assert!(w.len() == x.len());
     x.iter()
         .enumerate()
-        .map(|(i, x_i)| *x_i && w[i] || (!x_i) && (!w[i]))
+        .map(|(i, x_i)| (*x_i && w[i]) || (!x_i) && (!w[i]))
         .fold(true, |acc, a| acc && a)
 }
 
-// lemma 3.8 elided. 
+// lemma 3.8 elided.
 
 #[cfg(test)]
 mod test {
     use super::*;
     // use ark_bls12_381::Fr;
     // or make your own field
-    use ark_ff::{fields::Fp64, MontBackend, MontConfig, MontFp, One};
+    use ark_ff::{fields::Fp64, MontBackend, MontConfig};
 
     #[derive(MontConfig)]
     #[modulus = "17"]
@@ -57,7 +57,7 @@ mod test {
         let f = |bv: &Bv| Fq::from(bv[2]);
         let x = to_bits(7, 3);
         let out = lemma_37(f, &x);
-        assert_eq!(out, Fq::one());
+        assert_eq!(out, Fq::from(1));
     }
 
     #[test]
