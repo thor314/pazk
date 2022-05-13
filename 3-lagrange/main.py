@@ -12,10 +12,10 @@ def lemma_37(f: Callable, x: list[bool]) -> int:
     acc = 0
     for i in range(2**xlen):
         w_i = to_bits(i, xlen)
-        if X_w(w_i,x):
+        if X_w(w_i, x):
             out_i = f(w_i)
         else:
-            out_i=0
+            out_i = 0
         # print(f(w_i),w_i, out_i, acc, X_w(w_i,x))
         acc += out_i
     return acc
@@ -41,11 +41,12 @@ def test_lemma37():
 
 def test_to_bits():
     bv = 2
-    assert(to_bits(bv, 2)== [True, False])
+    assert(to_bits(bv, 2) == [True, False])
     bv = 2
-    assert(to_bits(bv, 3)==[False, True, False])
+    assert(to_bits(bv, 3) == [False, True, False])
     bv = 7
-    assert(to_bits(bv, 3)==[True, True,True])
+    assert(to_bits(bv, 3) == [True, True, True])
+
 
 if __name__ == "__main__":
     test_lemma37()

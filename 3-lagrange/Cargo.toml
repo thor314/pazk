@@ -8,4 +8,3 @@ edition = "2021"
 [dependencies]
 ark-bls12-381 = "0.3.0"
 ark-ff = { git = "https://github.com/arkworks-rs/algebra"  }
-bitvec = "1.0.0"
