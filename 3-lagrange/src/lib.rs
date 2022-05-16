@@ -70,20 +70,3 @@ mod test {
         assert_eq!(to_bits(bv, 3), [true, true, true]);
     }
 }
-
-// compute f^~(x), see eqn 3.1
-// fn lemma_37_wrong<F, G, Fr: PrimeField>(f: F, x: &Bv) -> G
-// where
-//     F: Fn(Vec<&Bv>) -> Fr,
-//     G: Fn(Vec<&Fr>) -> Fr,
-// {
-//     let xlen = x.len();
-//     let w: Vec<Bv> = (0..(2usize.pow(x.len() as u32)))
-//         .map(|w_i| to_bits(w_i, xlen)).collect();
-//     // a  cop-out: don't return a function, but its evaluation, see bottom
-//     // the following fails: closures have distinct types, so cannot match generic parameter G
-//     // my type theory isn't good enough for this API
-//     let g: G = |fr_v: Vec<&Fr>| -> Fr {
-//         w.into_iter().map(|w_i| fr_v(w_i)*X_w(&w_i,x))
-//     };
-// }

@@ -4,7 +4,6 @@ Implementation of [Freivalds' Algorithm](https://en.wikipedia.org/wiki/Freivalds
 ## others' repos:
 - [0xSage](https://github.com/0xSage/freivald)
 - [mmagician](https://github.com/mmagician/freivalds)
-- [maxgillet](https://github.com/maxgillett/thaler_reading_group/tree/master/week1-frievalds)
 - [pg
   haskell](https://github.com/pgwadapool/Learning_Haskell/tree/main/zkp/freivald)
 - [bufferhe4d python](https://github.com/bufferhe4d/pazk-study)
