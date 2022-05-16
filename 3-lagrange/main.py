@@ -48,6 +48,7 @@ def test_to_bits():
     assert(to_bits(bv, 3) == [True, True, True])
 
 
+# the lazy way to write tests
 if __name__ == "__main__":
     test_lemma37()
     test_to_bits()
