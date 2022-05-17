@@ -54,4 +54,3 @@ def test_sumcheck():
     def ff(a, b, c, d): return a*b*c+b+c+c*d
     protocol = SumcheckProtocol(ff)
     protocol.advance_to_end(True)
-    assert False
