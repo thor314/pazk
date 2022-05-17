@@ -8,12 +8,12 @@ struct SumcheckProtocol {
     done: bool,
 }
 
-fn arity<T, S>(f: impl Fn(T) -> S) -> usize {
+pub fn arity<T, S>(f: impl Fn(T) -> S) -> usize {
     todo!();
 }
 
 impl SumcheckProtocol {
-    pub fn new(g: impl Fn(&[usize]) -> usize+Copy) -> Result<Self, Box<dyn Error>> {
+    pub fn new(g: impl Fn(&[usize]) -> usize + Copy) -> Result<Self, Box<dyn Error>> {
         let g_arity = arity(&g);
         if g_arity < 1 {
             return Err(Box::from("arity less than 1"));
@@ -29,6 +29,27 @@ impl SumcheckProtocol {
             done: false,
         })
     }
+
+    pub fn advance_round(&mut self) {
+        assert!(!self.done);
+        self.p.compute_and_send_next_polynomial(&self.v);
+        self.v.check_latest_polynomial();
+        if self.round == self.g_arity {
+            self.done = self.v.evaluate_and_check_g_v();
+        } else {
+            self.v.get_new_random_value_and_send(&self.p);
+            self.round += 1;
+        }
+    }
+
+    // pub fn advance_to_end(&mut self, verbose: bool) {
+    //     while !self.done {
+    //         if verbose {
+    //             println!("ADVANCE OUTPUT: {:?}", &self);
+    //         }
+    //         self.advance_round();
+    //     }
+    // }
 }
 
 struct Prover {
@@ -39,8 +60,12 @@ struct Prover {
     h_claim: usize,
 }
 impl Prover {
-    pub fn new(g: &impl Fn(&[usize]) -> usize, g_arity: usize) -> Self {
+    pub(crate) fn new(g: &impl Fn(&[usize]) -> usize, g_arity: usize) -> Self {
         todo!()
+    }
+
+    pub(crate) fn compute_and_send_next_polynomial(&mut self, v: &Verifier) {
+        todo!();
     }
 }
 struct Verifier {
@@ -52,7 +77,19 @@ struct Verifier {
     polynomials: Vec<Box<dyn Fn(&[usize]) -> usize>>,
 }
 impl Verifier {
-    pub fn new(g: &impl Fn(&[usize]) -> usize, g_arity: usize, h_claim: usize) -> Self {
+    pub(crate) fn new(g: &impl Fn(&[usize]) -> usize, g_arity: usize, h_claim: usize) -> Self {
         todo!();
+    }
+
+    pub(crate) fn check_latest_polynomial(&self)  {
+        todo!()
+    }
+
+    pub(crate) fn evaluate_and_check_g_v(&self) -> bool {
+        todo!()
+    }
+
+    pub(crate) fn get_new_random_value_and_send(&self, p: &Prover)   {
+        todo!()
     }
 }

@@ -6,18 +6,18 @@ from verifier import Verifier
 
 class SumcheckProtocol:
     """The sumcheck protocol, as defined in Proofs Arguments and Zero Knowledge ch 4.1, 
-    defined over polynomials of arbitrary acidity over {0,1}"""
+    defined over polynomials of arbitrary arity over {0,1}"""
 
     def __init__(self, g: Callable) -> None:
         g_arity = arity(g)
         if g_arity <= 1:
             raise ValueError(
-                "function acidity must be greater than or equal to 1")
+                "function arity must be greater than or equal to 1")
 
-        self.g_acidity = g_arity
+        self.g_arity = g_arity
         # for simplicity, have prover compute H on initialization
-        self.p = Prover(g, self.g_acidity)
-        self.v = Verifier(g, self.g_acidity, self.p.H)
+        self.p = Prover(g, self.g_arity)
+        self.v = Verifier(g, self.g_arity, self.p.H)
         self.round = 1
         self.done = False
 
@@ -29,7 +29,7 @@ class SumcheckProtocol:
             # Prover: compute next polynomial and send it to verifier
             self.p.compute_and_send_next_polynomial(self.v)
             self.v.check_latest_polynomial()
-            if self.round == self.g_acidity:
+            if self.round == self.g_arity:
                 # final round
                 self.done = self.v.evaluate_and_check_g_v()
             else:
