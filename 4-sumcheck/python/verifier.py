@@ -4,10 +4,10 @@ from utils import deg_j
 
 
 class Verifier:
-    def __init__(self, g, g_acidity, H) -> None:
+    def __init__(self, g, g_arity, H) -> None:
         """Initialize verifier with the claimed witness H"""
         self.g = g
-        self.g_acidity = g_acidity
+        self.g_arity = g_arity
         self.H = H
         self.random_challenges = []
         self.round = 1
@@ -47,7 +47,7 @@ class Verifier:
         self.round += 1
 
     def evaluate_and_check_g_v(self):
-        assert len(self.random_challenges) == self.g_acidity-1
+        assert len(self.random_challenges) == self.g_arity-1
         self.random_challenges.append(randrange(2))
         g_final = self.g(*self.random_challenges)
         check = self.polynomials[-1](self.random_challenges[-1])

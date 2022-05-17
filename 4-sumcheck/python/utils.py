@@ -2,7 +2,7 @@ from inspect import signature
 from typing import Callable
 
 
-def acidity(g: Callable) -> int:
+def arity(g: Callable) -> int:
     """return the number of arguments taken by g"""
     return len(signature(g).parameters)
 
@@ -16,16 +16,16 @@ def to_bits(n: int, pad_to_len: int) -> list[int]:
 
 def deg_j(g: Callable, j: int) -> int:
     """return the degree of the j'th variable in g. Assume a non-negative integer power less than 10"""
-    acidity_g = acidity(g)
-    assert acidity_g > j
+    arity_g = arity(g)
+    assert arity_g > j
 
     exp = 1
     while True:
         args = [1 for _ in range(j)]+[100] + \
-            [1 for _ in range(acidity_g - j - 1)]
+            [1 for _ in range(arity_g - j - 1)]
         out_1 = g(*args)
         args = [1 for _ in range(j)]+[1000] + \
-            [1 for _ in range(acidity_g - j - 1)]
+            [1 for _ in range(arity_g - j - 1)]
         out_2 = g(*args)
         # print(j, exp, out_1, out_2)
         if abs(out_1/100**exp-out_2/1000**exp) < 1:

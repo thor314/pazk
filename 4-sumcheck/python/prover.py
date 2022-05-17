@@ -1,20 +1,20 @@
 from random import randrange
 from typing import Callable
-from utils import acidity, to_bits
+from utils import arity, to_bits
 from verifier import Verifier
 
 
 class Prover:
     """This prover uses a function currying cache to improve its runtime"""
 
-    def __init__(self, g, g_acidity) -> None:
+    def __init__(self, g, g_arity) -> None:
         """Initialize prover, compute the witness H"""
-        self.g_acidity = g_acidity
+        self.g_arity = g_arity
         self.random_challenges = []
         self.cached_polynomials = [g]
         self.round = 1
 
-        argsv = [to_bits(i, self.g_acidity) for i in range(2**self.g_acidity)]
+        argsv = [to_bits(i, self.g_arity) for i in range(2**self.g_arity)]
         self.H = sum([self.cached_polynomials[0](*args) for args in argsv])
 
     def compute_and_send_next_polynomial(self, v: Verifier):
@@ -24,7 +24,7 @@ class Prover:
         poly = self.cached_polynomials[-1]
 
         def g_j(X_j: int) -> int:
-            pad = self.g_acidity - round
+            pad = self.g_arity - round
             argsv = [[X_j] + to_bits(i, pad) for i in range(2**pad)]
             return sum([poly(*args) for args in argsv])
         v.receive_polynomial(g_j)
@@ -52,15 +52,15 @@ class Prover:
 
 
 class InefficientProver:
-    def __init__(self, g, g_acidity) -> None:
+    def __init__(self, g, g_arity) -> None:
         """Initialize prover, compute the witness H"""
         self.g = g
-        self.g_acidity = g_acidity
+        self.g_arity = g_arity
         self.random_challenges = []
         self.polynomials = []
         self.round = 1
 
-        argsv = [to_bits(i, self.g_acidity) for i in range(2**self.g_acidity)]
+        argsv = [to_bits(i, self.g_arity) for i in range(2**self.g_arity)]
         self.H = sum([self.g(*args) for args in argsv])
 
     def compute_and_send_next_polynomial(self, v: Verifier):
@@ -70,7 +70,7 @@ class InefficientProver:
 
         def g_j(X_j: int) -> int:
             args_init = self.random_challenges[:round-1] + [X_j]
-            pad_len = self.g_acidity - len(args_init)
+            pad_len = self.g_arity - len(args_init)
             argsv = [args_init + to_bits(i, pad_len)
                      for i in range(2**pad_len)]
             # print("argsv", argsv)

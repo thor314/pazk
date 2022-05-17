@@ -1,6 +1,6 @@
 from typing import Callable
 from prover import Prover
-from utils import acidity
+from utils import arity
 from verifier import Verifier
 
 
@@ -9,12 +9,12 @@ class SumcheckProtocol:
     defined over polynomials of arbitrary acidity over {0,1}"""
 
     def __init__(self, g: Callable) -> None:
-        g_acidity = acidity(g)
-        if g_acidity <= 1:
+        g_arity = arity(g)
+        if g_arity <= 1:
             raise ValueError(
                 "function acidity must be greater than or equal to 1")
 
-        self.g_acidity = g_acidity
+        self.g_acidity = g_arity
         # for simplicity, have prover compute H on initialization
         self.p = Prover(g, self.g_acidity)
         self.v = Verifier(g, self.g_acidity, self.p.H)
