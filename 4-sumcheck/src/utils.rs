@@ -6,13 +6,14 @@ pub(crate) struct FArity {
 }
 
 impl FArity {
-    fn new(f: Box<dyn Fn(&Vec<usize>) -> usize>, arity: usize) -> Self {
+    pub(crate) fn new(f: Box<dyn Fn(&Vec<usize>) -> usize>, arity: usize) -> Self {
         Self { f, arity }
     }
     pub(crate) fn arity(&self) -> usize {
         self.arity
     }
     pub(crate) fn f(&self, v: &Vec<usize>) -> usize {
+        assert!(v.len() == self.arity);
         self.f.deref()(v)
     }
     /// warning: home cooked. Assume non-negative integer power less than 10
@@ -46,6 +47,15 @@ impl FArity {
     }
 }
 
+pub(crate) fn to_bits(n: usize, pad_to_len: usize) -> Vec<usize> {
+    assert!(2usize.pow(pad_to_len as u32) > n);
+    let pad = get_pad_len(n, pad_to_len);
+    std::iter::repeat(0usize)
+        .take(pad)
+        .chain(format!("{:b}", n).chars().map(|c| (c == '1').into()))
+        .collect()
+}
+
 /// warning: home cooked
 fn get_pad_len(n: usize, pad_to_len: usize) -> usize {
     let min = 2usize.pow(pad_to_len as u32 - 1);
@@ -54,15 +64,6 @@ fn get_pad_len(n: usize, pad_to_len: usize) -> usize {
         .map(|i| max - 2usize.pow(i) * n)
         .position(|v| v <= min)
         .unwrap()
-}
-
-pub(crate) fn to_bits(n: usize, pad_to_len: usize) -> Vec<usize> {
-    assert!(2usize.pow(pad_to_len as u32) > n);
-    let pad = get_pad_len(n, pad_to_len);
-    std::iter::repeat(0usize)
-        .take(pad)
-        .chain(format!("{:b}", n).chars().map(|c| (c == '1').into()))
-        .collect()
 }
 
 #[test]
@@ -74,7 +75,7 @@ fn test_arity() {
     assert_eq!(F.arity(), 3);
     assert_eq!(G.arity(), 4);
     assert_eq!(F.f(&vec![1, 2, 3]), 6);
-    assert_eq!(F.f(&vec![1, 1, 2, 3]), 7);
+    assert_eq!(G.f(&vec![1, 1, 2, 3]), 7);
 }
 
 #[test]
