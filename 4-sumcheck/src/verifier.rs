@@ -8,8 +8,19 @@ pub(crate) struct Verifier<'a> {
     round: usize,
     polynomials: Vec<FArity>,
 }
-impl <'a>Verifier<'a> {
-    pub(crate) fn new(g: &impl Fn(&[usize]) -> usize, g_arity: usize, h_claim: usize) -> Self {
+impl<'a> Verifier<'a> {
+    pub(crate) fn new(g: &'a FArity, g_arity: usize, h_claim: usize) -> Self {
+        Self {
+            g,
+            g_arity,
+            h_claim,
+            random_challenges: vec![],
+            round: 1,
+            polynomials: vec![],
+        }
+    }
+
+    pub(crate) fn receive_polynomial(&mut self, polynomial: FArity){
         todo!();
     }
 
@@ -24,4 +35,5 @@ impl <'a>Verifier<'a> {
     pub(crate) fn get_new_random_value_and_send(&self, p: &Prover) {
         todo!()
     }
+
 }

@@ -1,15 +1,17 @@
-use std::error::Error;
+// use std::error::Error;
 
 use prover::Prover;
+use utils::FArity;
 use verifier::Verifier;
 
 mod prover;
 mod utils;
 mod verifier;
 
-struct SumcheckProtocol<'a>{
+struct SumcheckProtocol<'a> {
+    g: FArity,
     g_arity: usize,
-    p: Prover<'a>,
+    p: Prover,
     v: Verifier<'a>,
     round: usize,
     done: bool,
