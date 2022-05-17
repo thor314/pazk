@@ -5,7 +5,7 @@ from verifier import Verifier
 
 
 class Prover:
-    """This prover uses caching to improve runtime"""
+    """This prover uses a function currying cache to improve its runtime"""
 
     def __init__(self, g, g_acidity) -> None:
         """Initialize prover, compute the witness H"""

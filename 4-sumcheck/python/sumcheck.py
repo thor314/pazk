@@ -5,6 +5,9 @@ from verifier import Verifier
 
 
 class SumcheckProtocol:
+    """The sumcheck protocol, as defined in Proofs Arguments and Zero Knowledge ch 4.1, 
+    defined over polynomials of arbitrary acidity over {0,1}"""
+
     def __init__(self, g: Callable) -> None:
         g_acidity = acidity(g)
         if g_acidity <= 1:
@@ -16,19 +19,19 @@ class SumcheckProtocol:
         self.p = Prover(g, self.g_acidity)
         self.v = Verifier(g, self.g_acidity, self.p.H)
         self.round = 1
-        self.result = None
+        self.done = False
 
     def __repr__(self) -> str:
         return f'Protocol(round: "{self.round}", H: "{self.p.H}", challenges: "{self.p.random_challenges}")'
 
     def advance_round(self):
-        if self.result == None:
+        if not self.done:
             # Prover: compute next polynomial and send it to verifier
             self.p.compute_and_send_next_polynomial(self.v)
             self.v.check_latest_polynomial()
             if self.round == self.g_acidity:
                 # final round
-                self.result = self.v.evaluate_and_check_g_v()
+                self.done = self.v.evaluate_and_check_g_v()
             else:
                 self.v.get_new_random_value_and_send(self.p)
                 self.round += 1
@@ -36,7 +39,7 @@ class SumcheckProtocol:
             raise RuntimeError("Sumcheck protocol has finished")
 
     def advance_to_end(self, verbose: bool = False):
-        while self.result == None:
+        while not self.done:
             if verbose:
                 print("ADVANCE OUTPUT:", self)
             self.advance_round()
