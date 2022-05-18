@@ -57,14 +57,12 @@ impl SumcheckProtocol {
 
 #[test]
 fn test_sumcheck() {
-    let g: Rc<F> = Rc::new(
-        (|v: Vec<usize>| {
-            let a = v[0];
-            let b = v[1];
-            let c = v[2];
-            a + b + a * b + c
-        }),
-    );
+    let g: Rc<F> = Rc::new(|v: Vec<usize>| {
+        let a = v[0];
+        let b = v[1];
+        let c = v[2];
+        a + b + a * b + c
+    });
     let f: Rc<F> = Rc::new(|v: Vec<usize>| {
         let a = v[0];
         let b = v[1];
@@ -81,7 +79,9 @@ fn test_sumcheck() {
     let mut p1 = SumcheckProtocol::new(g, 3);
     let mut p2 = SumcheckProtocol::new(f, 3);
     let mut p3 = SumcheckProtocol::new(h, 4);
-    p1.advance_to_end();
+
     p2.advance_to_end();
+    print!("H");
+    p1.advance_to_end();
     p3.advance_to_end();
 }

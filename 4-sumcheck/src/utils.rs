@@ -68,9 +68,12 @@ pub(crate) fn to_bits(n: usize, pad_to_len: usize) -> Vec<usize> {
 
 /// warning: home cooked
 fn get_pad_len(n: usize, pad_to_len: usize) -> usize {
+    if n == 0 {
+        return pad_to_len-1;
+    }
     let min = 2usize.pow(pad_to_len as u32 - 1);
     let max = min * 2;
-    (0u32..)
+    (0u32..=100)
         .map(|i| max - 2usize.pow(i) * n)
         .position(|v| v <= min)
         .unwrap()
@@ -90,6 +93,7 @@ fn test_arity() {
 
 #[test]
 fn test_to_bits() {
+    assert_eq!(to_bits(0, 3), vec!(0, 0, 0));
     assert_eq!(to_bits(17, 7), vec!(0, 0, 1, 0, 0, 0, 1));
     assert_eq!(to_bits(16, 7), vec!(0, 0, 1, 0, 0, 0, 0));
     assert_eq!(to_bits(15, 7), vec!(0, 0, 0, 1, 1, 1, 1));
