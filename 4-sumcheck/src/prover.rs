@@ -10,11 +10,10 @@ pub(crate) struct Prover {
     cached_polynomial: Option<FArity>,
     round: usize,
     h_claim: usize,
-    verbose: bool,
 }
 
 impl Prover {
-    pub(crate) fn new(g: FArity, verbose: bool) -> Self {
+    pub(crate) fn new(g: FArity ) -> Self {
         let h_claim = (0..2usize.pow(g.arity() as u32))
             .map(|i| g.call_f(to_bits(i, g.arity())))
             .sum();
@@ -23,7 +22,6 @@ impl Prover {
             cached_polynomial: Some(g),
             round: 1,
             h_claim,
-            verbose,
         }
     }
     pub(crate) fn h_claim(&self) -> usize {
@@ -56,15 +54,7 @@ impl Prover {
     }
     pub(crate) fn receive_challenge(&mut self, challenge: usize) {
         self.random_challenges.push(challenge);
-        let round = self.round;
-        let verbose = self.verbose;
-        let s = self.cache_next(challenge);
-        if verbose {
-            println!(
-                "received challenge {}, initiating round {}",
-                challenge, round
-            );
-        }
+        self.cache_next(challenge);
     }
 
     fn cache_next(&mut self, challenge: usize) {

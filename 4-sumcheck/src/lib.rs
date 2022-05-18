@@ -1,6 +1,8 @@
-use std::rc::Rc;
+#![allow(non_snake_case)]
+#![allow(dead_code)]
 
 use prover::Prover;
+use std::rc::Rc;
 use utils::FArity;
 use verifier::Verifier;
 
@@ -15,14 +17,13 @@ struct SumcheckProtocol {
     p: Prover,
     v: Verifier,
     round: usize,
-    verbose: bool,
     done: bool,
 }
 
 impl SumcheckProtocol {
-    pub fn new(g: Rc<F>, arity: usize, verbose: bool) -> Self {
+    pub fn new(g: Rc<F>, arity: usize) -> Self {
         let farity = FArity::new(g, arity);
-        let p = Prover::new(farity.clone(), verbose);
+        let p = Prover::new(farity.clone());
         let v = Verifier::new(farity.clone(), p.h_claim());
 
         Self {
@@ -30,7 +31,6 @@ impl SumcheckProtocol {
             p,
             v,
             round: 1,
-            verbose: false,
             done: false,
         }
     }
@@ -52,4 +52,35 @@ impl SumcheckProtocol {
             self.advance_round();
         }
     }
+}
+
+#[test]
+fn test_sumcheck() {
+    let g: Rc<F> = Rc::new(
+        (|v: Vec<usize>| {
+            let a = v[0];
+            let b = v[1];
+            let c = v[2];
+            a + b + a * b + c
+        }),
+    );
+    let f: Rc<F> = Rc::new(|v: Vec<usize>| {
+        let a = v[0];
+        let b = v[1];
+        let c = v[2];
+        a * b * c + a * b + c
+    });
+    let h: Rc<F> = Rc::new(|v: Vec<usize>| {
+        let a = v[0];
+        let b = v[1];
+        let c = v[2];
+        let d = v[3];
+        a * b * c + b + c + c * d
+    });
+    let mut p1 = SumcheckProtocol::new(g, 3, false);
+    let mut p2 = SumcheckProtocol::new(f, 3, false);
+    let mut p3 = SumcheckProtocol::new(h, 4, false);
+    p1.advance_to_end();
+    p2.advance_to_end();
+    p3.advance_to_end();
 }
