@@ -1,13 +1,19 @@
-use std::ops::Deref;
-/// Helper struct to allow arity methods
+use std::{ops::Deref, rc::Rc};
 
+use crate::F;
+
+/// Helper struct to allow arity methods
+#[derive(Clone)]
 pub(crate) struct FArity {
-    f: Box<dyn Fn(Vec<usize>) -> usize>,
+    f: Rc<F>,
     arity: usize,
 }
 
 impl FArity {
-    pub(crate) fn new(f: Box<dyn Fn(Vec<usize>) -> usize>, arity: usize) -> Self {
+    pub(crate) fn new(f: Rc<F>, arity: usize) -> Self {
+        if arity < 1 {
+            panic!("arity was less than 1");
+        }
         Self { f, arity }
     }
     pub(crate) fn arity(&self) -> usize {
@@ -19,7 +25,10 @@ impl FArity {
         let mut exp = 1u32;
         loop {
             let (args1, args2) = self.gen_args(j);
-            let (out1, out2) = (self.call_f(args1) as isize / 10, self.call_f(args2) as isize / 100);
+            let (out1, out2) = (
+                self.call_f(args1) as isize / 10,
+                self.call_f(args2) as isize / 100,
+            );
             if (out1.pow(exp) - out2.pow(exp)).abs() <= 1 {
                 return exp as usize;
             } else if exp <= 10 {
@@ -71,8 +80,8 @@ fn get_pad_len(n: usize, pad_to_len: usize) -> usize {
 fn test_arity() {
     let f = |arr: Vec<usize>| -> usize { arr.iter().sum() };
     let g = |arr: Vec<usize>| -> usize { arr.iter().sum() };
-    let F = FArity::new(Box::new(f), 3);
-    let G = FArity::new(Box::new(g), 4);
+    let F = FArity::new(Rc::new(f), 3);
+    let G = FArity::new(Rc::new(g), 4);
     assert_eq!(F.arity(), 3);
     assert_eq!(G.arity(), 4);
     assert_eq!(F.call_f(vec![1, 2, 3]), 6);

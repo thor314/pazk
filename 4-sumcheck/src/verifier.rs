@@ -1,18 +1,17 @@
+
 use crate::{prover::Prover, utils::FArity};
 
-pub(crate) struct Verifier<'a> {
-    g: &'a FArity,
-    g_arity: usize,
+pub(crate) struct Verifier {
+    g: FArity,
     h_claim: usize,
     random_challenges: Vec<usize>,
     round: usize,
     polynomials: Vec<FArity>,
 }
-impl<'a> Verifier<'a> {
-    pub(crate) fn new(g: &'a FArity, g_arity: usize, h_claim: usize) -> Self {
+impl Verifier {
+    pub(crate) fn new(g: FArity, h_claim: usize) -> Self {
         Self {
             g,
-            g_arity,
             h_claim,
             random_challenges: vec![],
             round: 1,
@@ -20,7 +19,7 @@ impl<'a> Verifier<'a> {
         }
     }
 
-    pub(crate) fn receive_polynomial(&mut self, polynomial: FArity){
+    pub(crate) fn receive_polynomial(&mut self, polynomial: FArity) {
         todo!();
     }
 
@@ -35,5 +34,4 @@ impl<'a> Verifier<'a> {
     pub(crate) fn get_new_random_value_and_send(&self, p: &Prover) {
         todo!()
     }
-
 }

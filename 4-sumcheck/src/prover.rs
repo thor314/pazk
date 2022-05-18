@@ -1,41 +1,43 @@
-use std::iter::once;
-
 use crate::{
     utils::{to_bits, FArity},
     verifier::Verifier,
+    F,
 };
+use std::{iter::once, rc::Rc};
 
 pub(crate) struct Prover {
-    arity: usize,
     random_challenges: Vec<usize>,
-    cached_polynomials: Vec<FArity>,
+    cached_polynomial: Option<FArity>,
     round: usize,
     h_claim: usize,
     verbose: bool,
 }
 
 impl Prover {
-    pub(crate) fn new(g: FArity, arity: usize, verbose: bool) -> Self {
-        let h_claim = (0..2usize.pow(arity as u32))
-            .map(|i| g.call_f(to_bits(i, arity)))
+    pub(crate) fn new(g: FArity, verbose: bool) -> Self {
+        let h_claim = (0..2usize.pow(g.arity() as u32))
+            .map(|i| g.call_f(to_bits(i, g.arity())))
             .sum();
         Self {
-            arity,
             random_challenges: vec![],
-            cached_polynomials: vec![g],
+            cached_polynomial: Some(g),
             round: 1,
             h_claim,
             verbose,
         }
     }
+    pub(crate) fn h_claim(&self) -> usize {
+        self.h_claim
+    }
 
     /// Need the static lifetime, so that Prover lives as long as FArity
     /// Logicking about closures is hard man
-    pub(crate) fn compute_and_send_next_polynomial(&'static mut self, v: &mut Verifier) {
-        let pad_to_len = self.arity - self.round;
-        let poly = self.cached_polynomials.last().unwrap();
+    pub(crate) fn compute_and_send_next_polynomial(&mut self, v: &mut Verifier) {
+        // hand cached polynomial off to next closure
+        let pad_to_len = self.cached_polynomial.as_ref().unwrap().arity() - self.round;
+        let poly = self.cached_polynomial.clone().unwrap();
         self.round += 1;
-        let g_j: Box<dyn Fn(Vec<usize>) -> usize> = Box::new(move |X_j| {
+        let g_j: Rc<F> = Rc::new(move |X_j| {
             (1..2usize.pow(pad_to_len as u32))
                 .map(|i| {
                     let args = X_j
@@ -52,11 +54,11 @@ impl Prover {
         v.receive_polynomial(f_j);
         self.round += 1;
     }
-    pub(crate) fn receive_challenge(&'static mut self, challenge: usize) {
+    pub(crate) fn receive_challenge(&mut self, challenge: usize) {
         self.random_challenges.push(challenge);
         let round = self.round;
         let verbose = self.verbose;
-        // let s = self.cache_next(challenge);
+        let s = self.cache_next(challenge);
         if verbose {
             println!(
                 "received challenge {}, initiating round {}",
@@ -65,16 +67,13 @@ impl Prover {
         }
     }
 
-    // fn cache_next(&'static mut self, challenge: usize) {
-    //     let poly = self.cached_polynomials.last().unwrap();
-    //     let next_poly = move |args: Vec<usize>| {
-    //         if self.verbose {
-    //             println!("got args: {:?}", &args);
-    //         }
-    //         let new_args: Vec<usize> = once(challenge).chain(args.into_iter()).collect();
-    //         poly.call_f(new_args)
-    //     };
-    //     let next_farity = FArity::new(Box::new(next_poly), poly.arity() - 1);
-    //     self.cached_polynomials.push(next_farity);
-    // }
+    fn cache_next(&mut self, challenge: usize) {
+        let f = self.cached_polynomial.take().unwrap();
+        let next_arity = f.arity() - 1;
+        let next_f: Rc<F> = Rc::new(move |args: Vec<usize>| {
+            f.call_f(once(challenge).chain(args.into_iter()).collect())
+        });
+        let next_farity = FArity::new(next_f, next_arity);
+        self.cached_polynomial = Some(next_farity);
+    }
 }
