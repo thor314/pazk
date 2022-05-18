@@ -5,6 +5,12 @@ study group that meets Wednesdays and Fridays to talk about learning
 cryptographic engineering, and zero knowledge theory! If that floats your boat,
 check out our discord group! 
 
+Why both Rust and Python? Because, [I've
+found](https://github.com/thor314/euler-rs-py) that it's more efficient to
+prototype in a flexible language like Python, and subsequently translate my
+programs to Rust! Prototyping in Python allows for faster iterations, quicker
+debugging, and a better final code base when I translate to Rust.
+
 ## To run python tests:
 ```
 $ pytest python/sumcheck.py
