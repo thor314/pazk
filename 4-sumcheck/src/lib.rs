@@ -40,7 +40,8 @@ impl SumcheckProtocol {
         self.p.compute_and_send_next_polynomial(&mut self.v);
         self.v.check_latest_polynomial();
         if self.round == self.farity.arity() {
-            self.done = self.v.evaluate_and_check_g_v();
+            self.v.evaluate_and_check_g_v();
+            self.done = true;
         } else {
             self.v.get_new_random_value_and_send(&mut self.p);
             self.round += 1;
@@ -77,9 +78,9 @@ fn test_sumcheck() {
         let d = v[3];
         a * b * c + b + c + c * d
     });
-    let mut p1 = SumcheckProtocol::new(g, 3, false);
-    let mut p2 = SumcheckProtocol::new(f, 3, false);
-    let mut p3 = SumcheckProtocol::new(h, 4, false);
+    let mut p1 = SumcheckProtocol::new(g, 3);
+    let mut p2 = SumcheckProtocol::new(f, 3);
+    let mut p3 = SumcheckProtocol::new(h, 4);
     p1.advance_to_end();
     p2.advance_to_end();
     p3.advance_to_end();
