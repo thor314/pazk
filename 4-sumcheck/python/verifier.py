@@ -31,7 +31,6 @@ class Verifier:
                 deg_latest, deg_max))
 
         print(latest_poly(0), latest_poly(1))
-        assert(false)
         new_sum = latest_poly(0)+latest_poly(1)
         if self.round == 1:
             check = self.H
