@@ -38,7 +38,6 @@ impl Verifier {
         }
         let a = last_polynomial.call_f(vec![0]);
         let b = last_polynomial.call_f(vec![1]);
-        dbg!(a,b);
 
         let new_sum = last_polynomial.call_f(vec![0]) + last_polynomial.call_f(vec![1]);
         let check = match self.round {

@@ -80,8 +80,7 @@ fn test_sumcheck() {
     let mut p2 = SumcheckProtocol::new(f, 3);
     let mut p3 = SumcheckProtocol::new(h, 4);
 
-    p2.advance_to_end();
-    print!("H");
     p1.advance_to_end();
+    p2.advance_to_end();
     p3.advance_to_end();
 }

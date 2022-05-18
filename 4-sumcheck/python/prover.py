@@ -46,7 +46,6 @@ class Prover:
         poly = self.cached_polynomials[-1]
 
         def next_poly(*args):
-            print("got args:", args)
             return poly(challenge, *args)
         self.cached_polynomials.append(next_poly)
 
@@ -73,7 +72,6 @@ class InefficientProver:
             pad_len = self.g_arity - len(args_init)
             argsv = [args_init + to_bits(i, pad_len)
                      for i in range(2**pad_len)]
-            # print("argsv", argsv)
             return sum([self.g(*args) for args in argsv])
         self.polynomials.append(g_j)
         v.receive_polynomial(g_j)

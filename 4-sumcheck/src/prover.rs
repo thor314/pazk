@@ -6,6 +6,7 @@ use crate::{
 use std::{iter::once, rc::Rc};
 
 pub(crate) struct Prover {
+    total_arity: usize,
     random_challenges: Vec<usize>,
     cached_polynomial: Option<FArity>,
     round: usize,
@@ -13,12 +14,12 @@ pub(crate) struct Prover {
 }
 
 impl Prover {
-    pub(crate) fn new(g: FArity ) -> Self {
-        
+    pub(crate) fn new(g: FArity) -> Self {
         let h_claim = (0..2usize.pow(g.arity() as u32))
             .map(|i| g.call_f(to_bits(i, g.arity())))
             .sum();
         Self {
+            total_arity: g.arity(),
             random_challenges: vec![],
             cached_polynomial: Some(g),
             round: 1,
@@ -33,11 +34,13 @@ impl Prover {
     /// Logicking about closures is hard man
     pub(crate) fn compute_and_send_next_polynomial(&mut self, v: &mut Verifier) {
         // hand cached polynomial off to next closure
-        let pad_to_len = self.cached_polynomial.as_ref().unwrap().arity() - self.round;
         let poly = self.cached_polynomial.clone().unwrap();
+        let round = self.round;
+        let total_arity = self.total_arity;
 
         let g_j: Rc<F> = Rc::new(move |X_j| {
-            (1..2usize.pow(pad_to_len as u32))
+            let pad_to_len = total_arity - round;
+            (0..2usize.pow(pad_to_len as u32))
                 .map(|i| {
                     let args = X_j
                         .iter()

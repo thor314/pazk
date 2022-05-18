@@ -59,6 +59,9 @@ impl FArity {
 
 pub(crate) fn to_bits(n: usize, pad_to_len: usize) -> Vec<usize> {
     assert!(2usize.pow(pad_to_len as u32) > n);
+    if pad_to_len == 0{
+        return vec![];
+    }
     let pad = get_pad_len(n, pad_to_len);
     std::iter::repeat(0usize)
         .take(pad)
