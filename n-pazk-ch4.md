@@ -193,7 +193,7 @@ Final Round:
 - Verifier: 
 	- select $r_d$, evaluate $\tilde D_d(r_d) == \tilde W_d(r_d)$ 
 ```mermaid
-%%{init:{"themeVariables": {"noteTextColor":"black"}}}%%
+
 sequenceDiagram
 participant P as Prover
 participant V as Verifier
