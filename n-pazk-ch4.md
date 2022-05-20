@@ -88,7 +88,7 @@ Our soundness bound will be $dv/| \mathbb F|=9\log n / | \mathbb F|$.
 ## Harry Potter and the GKR Protocol, the novel
 jk, canonical physics still applies, the only magic here is a bit of information theory. 
 
-What do we have so far: **The sumcheck protocol, an IP that can be applied to $\#SAT$ **
+What do we have so far: **The sumcheck protocol, an IP that can be applied to $\# SAT$ **
 
 What we want: **An interactive proof for a problem in NP with V running in polynomial time in the number of arguments**
 
@@ -171,10 +171,10 @@ subgraph layer i
 S0("a");
 end
 subgraph layer i+1
-S1; S2
+S1("in_1,i(a)"); S2("in_2,i(a)")
 end
-S1 -->|"in_1,i(a)"|S0
-S2 -->|"in_2,i(a)"|S0
+S1 -->|"W_i(b in {0,1}^k_i))"|S0
+S2 -->|"W_i(b+1)"|S0
 ```
 
 ### Protocol in detail
@@ -214,6 +214,7 @@ note right of V: choose r_d and evaluate x==~D_d(r_d)
 We'll exploit a Lemma on the expression for $\tilde W_i(r_i)$ in terms of $\tilde W_{i+1}$:
 
 $$ \tilde W_i(z) = \sum_{b,c} \widetilde{add}_i(z,b,c)\cdot (\tilde W_{i+1}(b)+\tilde W_{i+1}(c))+\widetilde{mult}_i(z,b,c)\cdot (\tilde W_{i+1}(b)\cdot\tilde W_{i+1}(c))$$ 
+
 which I read as a sort of Lagrange interpolation for wire values. For proof, see book. 
 
 In the ith round, $\mathcal V$, $\mathcal P$ run sumcheck verifying that: 
@@ -222,6 +223,7 @@ $$ f_{r_i}^{(i)}(b,c) = \widetilde{add}_i(z,b,c)\cdot (\tilde W_{i+1}(b)+\tilde 
 
 #### How does $\mathcal V$ evaluate $f_{r_i}^{(i)}(b^*,c^*)$?
 Requires evaluating $\widetilde{add}_i(r_i, b^*,c^*)$, same mult.  $\mathcal V$ asks $\mathcal P$ to provide $z_1= \tilde W_{i+1}(b^*), z_2 = \tilde W_{i+1}(c^*)$. On iteration $i+1$, the verifier can verify the values are as claimed. 
+
 
 ## Questions/Notes for group
 - what does log-space mean in this context - well, if there's 8 variables, a fan-in 2 circuit would require 4 first order gates, 2 second order gates, and 1 final gate, so that's not logarithmic in the number of variables, that's $O(n)$. 
@@ -232,4 +234,10 @@ Requires evaluating $\widetilde{add}_i(r_i, b^*,c^*)$, same mult.  $\mathcal V$ 
 - Did the Prover and the verifier agree on the input to the circuit before running protocol?
 
 ## Typos
-- On page 59 we label layers 0 to d, on earlier pages we label from 1 to d (the hard problem in computer science)
+- On page 59-* we label layers 0 to d; on earlier pages we label from 1 to d (the hard problem in computer science)
+- On 4.3, a table of the protocol costs could be useful, I calculated:
+| Communication                            | Rounds      | V time                           | P time                                    |
+| ---------------------------------------- | ----------- | -------------------------------- | ----------------------------------------- |
+| O$(2v+\sum deg_i(g))=^1O(v)$ field elems | $v=3\log n$ | $O(T+2*\sum deg_i(g))=^1 O(T+v)$ | $O(\sum deg_i(g)2^{v-i}T) =^1 O(T*2^{v})$ |
+| O$(6\log n+3v) = O(\log n)$               | $3\log n$         | $O(n^2+2*9\log n)=O(n^2+\log n)=O(n^2)$ | $O(\sum deg_i(g)2^{v-i}T) = O(2^{3 \log n}*n^2)=O(n^5)$ |
+| $O(\log n)$               | $3\log n$         | $O(n^2)$ | $O(n^5)$ |
