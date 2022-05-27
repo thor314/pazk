@@ -1,6 +1,6 @@
 #note #pazk #cryptography 
 
-Interactive proofs, sumcheck, GKR.
+Interactive proofs, sumcheck, GKR. Note to skip 4.4-5, which are a deep rabbithole away from the section.
 
 ## key stuff
 - Model of a strong prover and weak verifier
@@ -113,7 +113,6 @@ If $S$ is the number of gates of $C$ and $n$ is the number of variables, the **k
 - prover should run in time $poly(S)$, or even linear in $S$, as is the case in some application papers (eg, section 4.4,4.5). 
 - verifier also conveniently runs in $O(d\log S)$ , where d=depth of circuit (logarithmic in n).
 - If $S=2^{o(n)}$, we have ourselves a pretty darn efficient alg, allowing a sub-linear verifier time, and naive prover time. Windgardium Leviosa can't even come close to that magic.
-
 
 table comparison time, because tables were the real magic all along
 |                         | Communication                             | Rounds                     | V time                           | P time                                    |     |
@@ -229,11 +228,13 @@ Requires evaluating $\widetilde{add}_i(r_i, b^*,c^*)$, same mult.  $\mathcal V$ 
 - what does log-space mean in this context - well, if there's 8 variables, a fan-in 2 circuit would require 4 first order gates, 2 second order gates, and 1 final gate, so that's not logarithmic in the number of variables, that's $O(n)$. 
 	- Oh there's an answer. It's a circuit $\mathcal C$ that possesses a **succinct implicit description** (oof) in the sense that there's a log-space algorithm taking as input:
 		- The label of gate $a$ of $\mathcal C$ and is capable of determining all relevant info about that gate. So that could possibly be a log-space algorithm, but it would need to have info about n-1 gates of an n-argument circuit. Revisit later.
+		- Ok, so I didn't believe that this alg was actually log space, but the $\mathcal V$ really only takes one element from each circuit layer, thus log space
 - how does $\mathcal C$ relate to our $\#SAT$ circuit? 
 	- sortof similar, but not applying sumcheck directly to the $\#SAT$ problem, using a different protocol.
 - Did the Prover and the verifier agree on the input to the circuit before running protocol?
+	- yes, for now
 
-## Typos
+## Typos n suggests
 - On page 59-* we label layers 0 to d; on earlier pages we label from 1 to d (the hard problem in computer science)
 - On 4.3, a table of the protocol costs could be useful, I calculated:
 | Communication                            | Rounds      | V time                           | P time                                    |
