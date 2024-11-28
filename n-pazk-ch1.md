@@ -7,7 +7,7 @@
 
 ## Notes
 An example of VC in practice: 
-Let Prover be supercomputer; Verifer be phone.
+Let Prover be supercomputer; Verifier be phone.
 Verifier wants expensive computation performed, but Prover has incentive to cheat Verifier. Prover has a lot of resources with which to do so. Prover can submit a *proof* to Verifier, which is cheap for Verifier to check, relative to actually doing the computation.
 
 **Succinct** means the proofs are short. 
@@ -35,5 +35,5 @@ Properties we care about:
 Note about soundness: we only care about *Cheating P running in Polynomial Time*. Intuitively, this means that if the Cheating prover strategy runs in exponential time, we can increase our security param to blow up the prover time.
 
 Why are these proofs *non-trad?*
--> they're probabalistic, using some source of randomness. A cheating P will be able to fool V with some negl. Pr.
+-> they're probabilistic, using some source of randomness. A cheating P will be able to fool V with some negl. Pr.
 
