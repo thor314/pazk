@@ -7,7 +7,7 @@ features like image and latex embedding will not render on Github, though should
 still be readable. If you would like to read them with latex rendering, a
 hack solution might be to copy them to a HackMD document. 
 
-The group open to everyone, and runs out of the [ZK hack discord
+The group is open to everyone, and runs out of the [ZK hack discord
 server](https://www.zkhack.dev/) by myself and the nice folks at the Zero Knowledge
 Podcast.
 
